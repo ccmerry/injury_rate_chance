@@ -24,7 +24,22 @@ shinyUI(
 
         # Show a plot of the generated distribution
         mainPanel(
-            plotlyOutput("distPlot")
+          tabsetPanel(
+            
+            tabPanel("Overview",
+                     plotlyOutput("summaryPlot"),
+                     tableOutput("summaryTable")
+                     ),
+            
+            tabPanel("Weekly",
+                     plotlyOutput("timePlot")
+              
+            ),
+            
+            tabPanel("About")
+            
+            )
+          )
         )
     )
-))
+  )

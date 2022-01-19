@@ -27,19 +27,28 @@ shinyServer(function(input, output) {
   count_df <- count_df %>%
     arrange(desc(Team))
   
-  #df$Species <- factor(df$Species,levels=rev(unique(df$Species)))
   count_df$Team <- factor(count_df$Team, levels=(unique(count_df$Team)))
+  
+  output$summaryPlot <- renderPlotly({
     
-
-    output$distPlot <- renderPlotly({
-      
-      
-      count_df %>%
-        ggplot(aes(y = Team, x = Injuries)) +
-        labs(title = "NFL Injury") +
-        scale_y_discrete(limits = rev(levels("Teams"))) +
-        geom_col() +
-        ylab("Team")
-    })
-
+    count_df %>%
+      ggplot(aes(y = Team, x = Injuries)) +
+      labs(title = "NFL Injury") +
+      scale_y_discrete(limits = rev(levels("Teams"))) +
+      geom_col() +
+      ylab("Team")
+  })
+  
+  output$timePlot <- renderPlotly({
+    
+    date_count_df %>%
+      ggplot(aes(x = week_num, y = Injuries)) +
+      labs(title = "NFL Injury") +
+      geom_col()
+  })
+  
+  output$summaryTable <- renderTable({
+    count_df
+  })
+  
 })
