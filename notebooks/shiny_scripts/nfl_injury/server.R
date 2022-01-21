@@ -13,25 +13,28 @@ library(shiny)
 shinyServer(function(input, output) {
   
   column_filter <- c("Team","details")
-  na_df <- injury_df %>%
-    filter(!is.na(details))
   
-  team_df <- na_df[column_filter]
-  
-  count_df <- team_df %>%
-    count(Team)
-  
-  count_df <- count_df %>% 
-    rename("Injuries" = "n" )
-  
-  count_df <- count_df %>%
+  team_df <- injury_na_df[column_filter] %>%
+    count(Team) %>%
+    rename("Injuries" = "n") %>%
     arrange(desc(Team))
   
-  count_df$Team <- factor(count_df$Team, levels=(unique(count_df$Team)))
+  team_df$Team <- factor(team_df$Team, levels=(unique(team_df$Team)))
+  
+  team_filter_df <- reactive({
+    if (is_empty(input$teamschoice)) {
+      team_df
+    }
+    else{
+      team_df %>%
+        filter(Team %in% input$teamschoice)
+    }
+  })
+  
   
   output$summaryPlot <- renderPlotly({
     
-    count_df %>%
+    team_filter_df() %>%
       ggplot(aes(y = Team, x = Injuries)) +
       labs(title = "NFL Injury") +
       scale_y_discrete(limits = rev(levels("Teams"))) +
@@ -41,14 +44,15 @@ shinyServer(function(input, output) {
   
   output$timePlot <- renderPlotly({
     
-    date_count_df %>%
+    date_sort %>%
       ggplot(aes(x = week_num, y = Injuries)) +
       labs(title = "NFL Injury") +
-      geom_col()
+      geom_col() +
+      xlab("Week of the Season")
   })
   
   output$summaryTable <- renderTable({
-    count_df
+    team_filter_df()
   })
   
 })

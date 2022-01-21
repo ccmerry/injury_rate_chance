@@ -20,6 +20,12 @@ shinyUI(
     sidebarLayout(
         sidebarPanel(
           
+          selectizeInput("teamschoice",
+                         "Teams:",
+                         choices = team_list,
+                         #selected = c("01KWVG908KE7RKPTNP46"),
+                         multiple = T)
+          
         ),
 
         # Show a plot of the generated distribution
