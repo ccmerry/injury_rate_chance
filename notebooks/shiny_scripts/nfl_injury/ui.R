@@ -23,7 +23,11 @@ shinyUI(
           selectizeInput("teamschoice",
                          "Teams:",
                          choices = team_list,
-                         #selected = c("01KWVG908KE7RKPTNP46"),
+                         multiple = T),
+          
+          selectizeInput("injurytypes",
+                         "Injury Types:",
+                         choices = injury_type_list,
                          multiple = T)
           
         ),
@@ -33,16 +37,21 @@ shinyUI(
           tabsetPanel(
             
             tabPanel("Overview",
-                     plotlyOutput("summaryPlot"),
-                     tableOutput("summaryTable")
+                     plotlyOutput("summaryPlot",height=600)
+                     #tableOutput("summaryTable")
                      ),
             
             tabPanel("Weekly",
-                     plotlyOutput("timePlot")
+                     plotlyOutput("timePlot"),
+                     plotlyOutput("corrPlot")
               
             ),
             
-            tabPanel("About")
+            tabPanel("Injury Type",
+                     plotlyOutput("typePlot"),
+                     plotlyOutput("upperlowerPlot")
+                     
+            )
             
             )
           )
