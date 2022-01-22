@@ -2,7 +2,8 @@ library(tidyverse)
 library(plotly)
 
 
-injury_df <- read.csv("data/nfl_injury_cleanedv3.csv", header = TRUE)
+injury_df <- read.csv("data/nfl_injury_cleanedv5.csv", header = TRUE)
+nfl_stadium_df <- read.csv("data/nfl_stadium_type.csv", header = TRUE)
 
 #Team names
 team_list <- sort(unique(injury_df$Team))
@@ -61,3 +62,21 @@ upper_lower_df <- upper_lower_sum_df[ul_list] %>%
 #handles plot for correlation
 corr_data <- date_sort %>%
   filter(week_num != 18)
+
+#graph for lower body on turf
+injury_lower_turf <- injury_week_df %>%
+  filter(lower==1) %>%
+  group_by(week_num,Field) %>%
+  summarise(Type=n())
+
+injury_acl_turf <- injury_week_df %>%
+  filter(ACL==1) %>%
+  group_by(week_num,Field) %>%
+  summarise(Type=n())
+
+year_week_df <- injury_week_df %>%
+  group_by(week_num,nfl_year) %>%
+  summarise(count=n())
+
+year_week_num_df <- transform(year_week_df, week_num = as.numeric(week_num))
+
