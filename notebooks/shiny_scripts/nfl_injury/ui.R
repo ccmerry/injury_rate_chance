@@ -41,7 +41,7 @@ shinyUI(
         
         conditionalPanel(condition="input.tabselected==2",
                          
-                         checkboxInput("corr", 
+                         checkboxInput("timecorr", 
                                        label = "Correlation", 
                                        value = FALSE)
                          
@@ -74,7 +74,6 @@ shinyUI(
           tabPanel("Weekly",
                    value=2,
                    conditionalPanel(condition = "input.choice==2"),
-                   checkboxInput("timecorr", label = "Correlation", value = FALSE),
                    plotlyOutput("timePlot"),
                    #plotlyOutput("corrPlot")
                    
@@ -83,7 +82,6 @@ shinyUI(
           tabPanel("Injury Type",
                    value=3,
                    conditionalPanel(condition = "input.choice==3"),
-                   checkboxInput("corr", label = "Correlation", value = FALSE),
                    plotlyOutput("typePlot"),
                    plotlyOutput("upperlowerPlot"),
                    plotlyOutput("corrtypePlot")
@@ -103,8 +101,8 @@ shinyUI(
           ),
           
           tabPanel("Data",
-                   value=6,
-                   conditionalPanel(condition = "input.choice==6"),
+                   value=1,
+                   conditionalPanel(condition = "input.choice==1"),
                    downloadButton('download',"Download the data"),
                    dataTableOutput('saveTable')),
           id = "tabselected"

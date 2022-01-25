@@ -187,7 +187,8 @@ shinyServer(function(input, output) {
     injury_lower_turf %>%
       ggplot(aes(x= week_num, y=Type, fill=Field)) +
       geom_col(position = "dodge") +
-      labs(title = "Comparing Playing Surfaces") +
+      theme(plot.title = element_text(hjust = .5, size=rel(1.5))) +
+      labs(title = "Comparing Lower Body Injuries on Playing Surfaces") +
       xlab("Week of the Season") +
       ylab("Cases")
   })
@@ -196,6 +197,8 @@ shinyServer(function(input, output) {
     injury_acl_turf %>%
       ggplot(aes(x= week_num, y=Type, fill=Field)) +
       geom_col(position = position_dodge2(preserve = "single")) +
+      theme(plot.title = element_text(hjust = .5, size=rel(1.5))) +
+      labs(title = "Comparing ACL Injuries on Playing Surfaces") +
       xlab("Week of the Season") +
       ylab("Cases")
   })
@@ -207,6 +210,7 @@ shinyServer(function(input, output) {
       scale_x_continuous(expand=c(0,0)) + 
       scale_y_continuous(expand=c(0,0)) +
       theme(legend.position="none") +
+      theme(plot.title = element_text(hjust = .5, size=rel(1.5))) +
       labs(title = "Injuries through the Years") +
       xlab("Week of the Season") +
       ylab("Year")
